@@ -1,2 +1,0 @@
-- Plot the likelihood of a sighting on a given day on the world map.
-    - Use a list of major cities and a list of dates to do this

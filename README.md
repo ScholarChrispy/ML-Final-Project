@@ -2,7 +2,7 @@
  
 ## **Group Members:**
 - Christopher Johnson (christopher.johnson13@ontariotechu.net)
--
+- Alexander Sawatzky (alexander.sawatzky@ontariotechu.net)
 
 
 ## **Project Goals & Outline:**

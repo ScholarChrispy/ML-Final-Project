@@ -4,6 +4,7 @@
 - Christopher Johnson (christopher.johnson13@ontariotechu.net)
 - Alexander Sawatzky (alexander.sawatzky@ontariotechu.net)
 - Cameron Millar (cameron.millar@ontariotechu.net)
+- Jack Udeschini (jack.udeschini@ontariotechu.net)
 
 ## **Project Goals & Outline:**
 The goal of this project is to...

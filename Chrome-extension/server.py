@@ -43,8 +43,8 @@ GRU_model.eval()
 # load & configure the LSTM model
 LSTM_model = LSTM_classifier(
     vocab_size = len(vocab),
-    embedding_dimension = 32, # hyperparameter
-    state_dimension = 64 # hyperparameter
+    embedding_dimension = 64, # hyperparameter
+    state_dimension = 128 # hyperparameter
 )
 LSTM_model.load_state_dict(torch.load('lightning_logs/LSTM/version_0/checkpoints/epoch=19-step=26020.ckpt')['state_dict'])
 LSTM_model.eval()
@@ -61,24 +61,24 @@ def return_sentiment(model_type, tweet_content):
     tokens = word_tokenize(tweet_content)
 
     # numerically encode the tokens using the vocab object
-    content =  [vocab[token] for token in tqdm(tokens)]
+    content =  [vocab[token] for token in tokens]
 
     # convert the encoded tokens into a torch Tensor
     content = torch.as_tensor(content)
 
     if (model_type == 'RNN'):
         value = RNN_model(torch.as_tensor(content))
-        print(value)  # display the sentiments
+        print("RNN Sentiment Probabilities: " + str(value.tolist()))  # display the sentiments
         
         return jsonify({'message': value.tolist()}), 200
     elif (model_type == 'GRU'):
         value = GRU_model(torch.as_tensor(content))
-        print(value)  # display the sentiments
+        print("GRU Sentiment Probabilities: " + str(value.tolist()))  # display the sentiments
         
         return jsonify({'message': value.tolist()}), 200
     elif (model_type == 'LSTM'):
         value = LSTM_model(torch.as_tensor(content))
-        print(value)  # display the sentiments
+        print("LSTM Sentiment Probabilities: " + str(value.tolist()))  # display the sentiments
         
         return jsonify({'message': value.tolist()}), 200
     else:

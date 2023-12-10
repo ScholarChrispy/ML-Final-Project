@@ -12,7 +12,6 @@ function sentimentSelection(inputArray) {
 
 $(document).ready(function() {
     var button = document.getElementById("sendButton");
-    var modelType = document.getElementById("modelSelect").value;
     
     // runs when the button is clicked
     button.addEventListener("click", sendToServer);
@@ -20,6 +19,7 @@ $(document).ready(function() {
     // sends tweet content and model type to server
     async function sendToServer(){
         var tweetContent = document.getElementById("inputBox").value;
+        var modelType = document.getElementById("modelSelect").value;
 
         // build the URL
         // e.g. http://127.0.0.1:5000/GRU/I love you

@@ -132,7 +132,7 @@ class LSTM_classifier(LightningModule):
         self.lstm = nn.LSTM(
             input_size = embedding_dimension,
             hidden_size = state_dimension,
-            num_layers = 1, # hyperparameter
+            num_layers = 2, # hyperparameter
             batch_first = True
         )
 

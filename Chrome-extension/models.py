@@ -12,7 +12,8 @@ class RNN_classifier(LightningModule):
             input_size = embedding_dimension,
             hidden_size = state_dimension,
             num_layers = 1, # hyperparameter
-            batch_first = True
+            batch_first = True,
+            bidirectional = True
         )
 
         # possible outputs: positive, negative, neutral
@@ -20,6 +21,9 @@ class RNN_classifier(LightningModule):
 
         # activation function to provide probabilities
         self.activation = nn.Sigmoid()
+
+        # initialize loss function
+        self.loss_fn = nn.CrossEntropyLoss()
 
         # monitors accuracy
         self.accuracy = Accuracy(task = 'multiclass', num_classes = 3)
@@ -33,9 +37,7 @@ class RNN_classifier(LightningModule):
         return output
 
     def loss(self, output, targets):
-        loss = nn.CrossEntropyLoss()
-
-        return loss(output, targets)
+        return self.loss_fn(output, targets)
 
     def training_step(self, batch):
         inputs, targets = batch
@@ -78,6 +80,9 @@ class GRU_classifier(LightningModule):
         # activation function to provide probabilities
         self.activation = nn.Sigmoid()
 
+        # initialize loss function
+        self.loss_fn = nn.CrossEntropyLoss()
+
         # monitors accuracy
         self.accuracy = Accuracy(task = 'multiclass', num_classes = 3)
 
@@ -94,9 +99,7 @@ class GRU_classifier(LightningModule):
         return output
 
     def loss(self, output, targets):
-        loss = nn.CrossEntropyLoss()
-
-        return loss(output, targets)
+        return self.loss_fn(output, targets)
 
     def training_step(self, batch):
         inputs, targets = batch
@@ -132,15 +135,21 @@ class LSTM_classifier(LightningModule):
         self.lstm = nn.LSTM(
             input_size = embedding_dimension,
             hidden_size = state_dimension,
-            num_layers = 2, # hyperparameter
-            batch_first = True
+            num_layers = 1, # hyperparameter
+            batch_first = True,
+            bidirectional = True
         )
+        self.linear1 = nn.Linear(state_dimension, 32)
+        self.relu = nn.ReLU()
 
         # possible outputs: positive, negative, neutral
-        self.output = nn.Linear(state_dimension, 3)
+        self.output = nn.Linear(32, 3)
 
         # activation function to provide probabilities
         self.activation = nn.Sigmoid()
+
+        # initialize loss function
+        self.loss_fn = nn.CrossEntropyLoss()
 
         # monitors accuracy
         self.accuracy = Accuracy(task = 'multiclass', num_classes = 3)
@@ -148,15 +157,15 @@ class LSTM_classifier(LightningModule):
     def forward(self, sequence_batch):
         embedded = self.embedding(sequence_batch)
         h_t, (h_n, _) = self.lstm(embedded)  # output features (h_t) and state (h_n)
-        output = self.output(h_n[-1])
+        output = self.linear1(h_n[-1])
+        output = self.relu(output)
+        output = self.output(output)
         output = self.activation(output)
 
         return output
 
     def loss(self, output, targets):
-        loss = nn.CrossEntropyLoss()
-
-        return loss(output, targets)
+        return self.loss_fn(output, targets)
 
     def training_step(self, batch):
         inputs, targets = batch

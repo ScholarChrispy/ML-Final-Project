@@ -43,8 +43,8 @@ GRU_model.eval()
 # load & configure the LSTM model
 LSTM_model = LSTM_classifier(
     vocab_size = len(vocab),
-    embedding_dimension = 64, # hyperparameter
-    state_dimension = 128 # hyperparameter
+    embedding_dimension = 32, # hyperparameter
+    state_dimension = 64 # hyperparameter
 )
 LSTM_model.load_state_dict(torch.load('lightning_logs/LSTM/version_0/checkpoints/epoch=19-step=26020.ckpt')['state_dict'])
 LSTM_model.eval()

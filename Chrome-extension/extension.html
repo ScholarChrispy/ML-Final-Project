@@ -5,8 +5,13 @@
 <html>
   <body>
     <h1>Sentiment Analysis</h1>
-    <input type="text" id="inputBox" placeholder="String to analyse">
-    <button id="sendButton">Test Button</button>
-    
+    <input type="text" id="inputBox" placeholder="Tweet content">
+    <select id="modelSelect">
+        <option value="GRU">GRU Model (recommended)</option>
+        <option value="RNN">RNN Model</option>
+        <option value="LSTM">LSTM Model</option>
+    </select>
+    <button id="sendButton">Analyze Sentiment</button>
+    <b id="sentimentDisplay" hidden="True"></b>
   </body>
 </html>
